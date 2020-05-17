@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: tetris
+    app.kubernetes.io/instance: tetris-service-1
+    app.kubernetes.io/managed-by: manual
+    app.kubernetes.io/name: tetris-service
+    app.kubernetes.io/part-of: kubernetes-workshop
+
+  name: tetris-service
+  namespace: workshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: tetris-service-1
+      app.kubernetes.io/name: tetris-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: tetris
+        app.kubernetes.io/instance: tetris-service-1
+        app.kubernetes.io/managed-by: manual
+        app.kubernetes.io/name: tetris-service
+        app.kubernetes.io/part-of: kubernetes-workshop
+
+    spec:
+      containers:
+        - name: tetris
+          image: mn:latest
+          imagePullPolicy: Never
+          env:
+            - name: THEME
+              value: VIM
+          ports:
+            - name: http
+              containerPort: 8080
+
