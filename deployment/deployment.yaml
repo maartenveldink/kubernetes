@@ -1,16 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: tetris-service
   labels:
     app.kubernetes.io/component: tetris
     app.kubernetes.io/instance: tetris-service-1
     app.kubernetes.io/managed-by: manual
     app.kubernetes.io/name: tetris-service
     app.kubernetes.io/part-of: kubernetes-workshop
-
-  name: tetris-service
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/instance: tetris-service-1
@@ -27,11 +26,48 @@ spec:
     spec:
       containers:
         - name: tetris
-          image: mn:latest
+          image: tetris:latest
           imagePullPolicy: Never
           env:
-            - name: THEME
-              value: VIM
+            - name: style
+              value: retro
+          ports:
+            - name: http
+              containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tetris-service-v2
+  labels:
+    app.kubernetes.io/component: tetris
+    app.kubernetes.io/instance: tetris-service-2
+    app.kubernetes.io/managed-by: manual
+    app.kubernetes.io/name: tetris-service
+    app.kubernetes.io/part-of: kubernetes-workshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: tetris-service-2
+      app.kubernetes.io/name: tetris-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: tetris
+        app.kubernetes.io/instance: tetris-service-2
+        app.kubernetes.io/managed-by: manual
+        app.kubernetes.io/name: tetris-service
+        app.kubernetes.io/part-of: kubernetes-workshop
+
+    spec:
+      containers:
+        - name: tetris
+          image: tetris:latest
+          imagePullPolicy: Never
+          env:
+            - name: style
+              value: monochrome
           ports:
             - name: http
               containerPort: 8080
@@ -48,7 +84,6 @@ metadata:
   name: tetris-service
 spec:
   selector:
-    app.kubernetes.io/instance: tetris-service-1
     app.kubernetes.io/name: tetris-service
   type: NodePort
   ports:
