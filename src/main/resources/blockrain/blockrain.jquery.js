@@ -29,7 +29,7 @@
       asdwKeys: true, // Enable ASDW keys
 
       // Copy
-      playText: 'Games served from Knative',
+      playText: 'Games served from Kubernetes',
       playButtonText: 'Play',
       gameOverText: 'Game Over',
       restartButtonText: 'Play Again',
