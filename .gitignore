@@ -1,0 +1,8 @@
+target/
+generated-java/
+.project
+.classpath
+.idea/
+.idea
+*.iml
+*.log
