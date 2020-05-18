@@ -56,15 +56,17 @@ spec:
         app.kubernetes.io/managed-by: manual
         app.kubernetes.io/name: tetris-service
         app.kubernetes.io/part-of: kubernetes-workshop
-
     spec:
       containers:
         - name: tetris
           image: tetris:latest
           imagePullPolicy: Never
           env:
-            - name: style
-              value: retro
+            - name: game.style
+              valueFrom:
+                configMapKeyRef:
+                  key: game.style
+                  name: tetris-service-config-map
             - name: actuators_ready_state
               value: ready
             - name: actuators_healty_state
@@ -109,3 +111,16 @@ spec:
     - name: http
       port: 8080
       targetPort: http
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: tetris
+    app.kubernetes.io/instance: tetris-service-1
+    app.kubernetes.io/managed-by: manual
+    app.kubernetes.io/name: tetris-service
+    app.kubernetes.io/part-of: kubernetes-workshop
+  name: tetris-service-config-map
+data:
+  game.style: vim
