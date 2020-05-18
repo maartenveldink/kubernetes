@@ -18,7 +18,5 @@ alias kubectl='minikube kubectl --'
 echo Verifying:
 kubectl get nodes
 
-mvn clean install -DskipTests
-docker build -t tetris:latest .
-
 alias tetris='minikube service tetris-service --url'
+
