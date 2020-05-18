@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: micronaut-basic
+  server:
+    port: ${PORT:8080}
+    cors:
+      enabled: true
+  router:
+    static-resources:
+      default:
+        enabled: true
+        mapping: "/**"
+        paths: "classpath:styles/${style:monochrome},classpath:blockrain"
