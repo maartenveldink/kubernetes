@@ -1,4 +1,4 @@
-package nl.ordina.app;
+package nl.ordina.kubernetes.game;
 
 import org.junit.Test;
 

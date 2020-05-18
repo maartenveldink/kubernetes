@@ -6,7 +6,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <exec.mainClass>nl.ordina.app.ServerApplication</exec.mainClass>
+        <exec.mainClass>nl.ordina.kubernetes.game.ServerApplication</exec.mainClass>
         <micronaut.version>1.1.4</micronaut.version>
         <jdk.version>1.8</jdk.version>
     </properties>
