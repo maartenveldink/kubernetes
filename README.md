@@ -1,33 +1,17 @@
 # Introduction
-This repo contains source-code for a basic Micronaut application. The application itself
-is quite small in which it currently contains only one REST endpoint. When the application
-is running it can be accessed at the following location: `http://localhost:9080/greet/{name}` 
-replace `name` with a valid name.
+This repository is set up to facilitate a Kubernetes workshop. It contains a minimal web-application packaged in a Docker container. 
+The web-server serves a game of Tetris to the user
+
+## Install Minikube
+The workshop uses Minikube to setup a Kubernetes cluster on your local machine. 
+Please go through the steps on: https://kubernetes.io/docs/tasks/tools/install-minikube/ and install minikube. 
+
+Also make sure that minikube is on your path. 
 
 ## Build Docker image locally
-To build a Docker image locally based on the source one should then run the following 
-command: `docker build -t tetris:latest .` You can always choose another
-TAG if you wish.
+Before we continue with the workshop, please compile the Maven project and build the Docker-container.
+If you do not have Maven, please notify me. 
 
-Read the Docker docs for more information about the `docker build` command. 
-The `-t` flag in the command is used to TAG the image and the convention 
-is `docker build -t {username}/{application}:{version}`. This TAG helps distinguish our
-image from others and is also required when pushing the image to a Docker registry 
-like Docker Hub.
+Tag the Docker-container with the tag 'tetris:latest'. 
+The availability of an image with that tag is assumed throughout the workshop.  
 
-After running the `docker build -t ..` command two images will be available in your local environment.
-You can verify this by running `docker image ls`. The first image will be displayed as 
-`jpdecastro/micronaut-basic` and contains the pre-built application. The second image was only needed to
-build the artifact. Read more about multi-staged builds.
-
-## Run Docker container
-If the image is available on your machine the we can launch the application by running the
-following command: `docker run -d -p 9080:9080 jpdecastro/micronaut-basic:latest`. This will
-spin up a Docker container in detached mode and expose port 9080 to the Docker host. Use the
-following command for verification: `docker ps -a`. The status of the container should not be
-Exited.
-
-## Accessing application REST endpoint
-Now that we have a running container we can access the REST endpoint by making the
-following HTTP GET request `http://localhost:9080/greet/Duke`. When the request has 
-executed successfully then the following text should be visible: `Micronaut salutes you! Duke`.

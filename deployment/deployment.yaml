@@ -1,149 +1,21 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  labels:
-    app.kubernetes.io/component: tetris
-    app.kubernetes.io/instance: tetris-service-1
-    app.kubernetes.io/managed-by: manual
-    app.kubernetes.io/name: tetris-service
-    app.kubernetes.io/part-of: kubernetes-workshop
-  name: tetris-service-config-map
-data:
-  game.style: vim
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tetris-service
-  labels:
-    app.kubernetes.io/component: tetris
-    app.kubernetes.io/instance: tetris-service-2
-    app.kubernetes.io/managed-by: manual
-    app.kubernetes.io/name: tetris-service
-    app.kubernetes.io/part-of: kubernetes-workshop
+  name:
 spec:
-  replicas: 1
+  replicas:
   selector:
     matchLabels:
-      app.kubernetes.io/instance: tetris-service-2
-      app.kubernetes.io/name: tetris-service
+      app.kubernetes.io/name:
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: tetris
-        app.kubernetes.io/instance: tetris-service-2
-        app.kubernetes.io/managed-by: manual
-        app.kubernetes.io/name: tetris-service
-        app.kubernetes.io/part-of: kubernetes-workshop
-    spec:
-      volumes:
-        - name: tetris-service-volume
-          persistentVolumeClaim:
-            claimName: tetris-service-pvc
-      containers:
-        - name: tetris
-          image: tetris:latest
-          imagePullPolicy: Never
-          env:
-            - name: game.style
-              value: volume
-          ports:
-            - name: http
-              containerPort: 8080
-          volumeMounts:
-            - mountPath: "styles/volume"
-              name: tetris-service-volume
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: tetris-service-v2
-  labels:
-    app.kubernetes.io/component: tetris
-    app.kubernetes.io/instance: tetris-service-1
-    app.kubernetes.io/managed-by: manual
-    app.kubernetes.io/name: tetris-service
-    app.kubernetes.io/part-of: kubernetes-workshop
-spec:
-  replicas: 0
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: tetris-service-1
-      app.kubernetes.io/name: tetris-service
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/component: tetris
-        app.kubernetes.io/instance: tetris-service-1
-        app.kubernetes.io/managed-by: manual
-        app.kubernetes.io/name: tetris-service
-        app.kubernetes.io/part-of: kubernetes-workshop
+        app.kubernetes.io/name:
     spec:
       containers:
         - name: tetris
-          image: tetris:latest
+          image:
           imagePullPolicy: Never
-          env:
-            - name: game.style
-              valueFrom:
-                configMapKeyRef:
-                  key: game.style
-                  name: tetris-service-config-map
-            - name: actuators_ready_state
-              value: ready
-            - name: actuators_healty_state
-              value: healthy
           ports:
             - name: http
               containerPort: 8080
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /actuator/health
-              port: http
-            initialDelaySeconds: 1
-            periodSeconds: 1
-            successThreshold: 1
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 1
-            periodSeconds: 1
-            successThreshold: 1
-            httpGet:
-              path: /actuator/ready
-              port: http
-            timeoutSeconds: 1
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/component: tetris
-    app.kubernetes.io/instance: tetris-service-1
-    app.kubernetes.io/managed-by: manual
-    app.kubernetes.io/name: tetris-service
-    app.kubernetes.io/part-of: kubernetes-workshop
-  name: tetris-service
-spec:
-  selector:
-    app.kubernetes.io/name: tetris-service
-  type: NodePort
-  ports:
-    - name: http
-      port: 8080
-      targetPort: http
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  labels:
-    app.kubernetes.io/component: tetris
-    app.kubernetes.io/instance: tetris-service-1
-    app.kubernetes.io/managed-by: manual
-    app.kubernetes.io/name: tetris-service
-    app.kubernetes.io/part-of: kubernetes-workshop
-  name: tetris-service-config-map
-data:
-  game.style: vim

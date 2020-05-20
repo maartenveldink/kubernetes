@@ -15,3 +15,9 @@ echo Set alias kubectl to use minikube internal kubectl version
 alias kubectl='minikube kubectl --'
 echo Verifying:
 kubectl get nodes
+
+
+alias tetris='minikube service tetris-service --url'
+
+function logs { kubectl logs -l=app.kubernetes.io/name="$1" --tail=1000; }
+export -f logs
